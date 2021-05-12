@@ -1,0 +1,17 @@
+.container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#peak-meter {
+  width: 5em;
+  height: 20em;
+  margin: 1em 0;
+}
+
+#video {
+  width: 70%;
+  height: 70%;
+}
