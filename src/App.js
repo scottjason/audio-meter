@@ -6,16 +6,15 @@ import webAudioPeakMeter from 'web-audio-peak-meter';
 function App() {
   useEffect(() => {
     const bindAudioToMeter = async () => {
+      const audioStream = await navigator.mediaDevices.getUserMedia({
+        audio: true,
+        video: false,
+      });
       const meterElement = document.getElementById('peak-meter');
-      const video = document.getElementById('video');
-      var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-      const sourceNode = audioCtx.createMediaElementSource(video);
-      sourceNode.connect(audioCtx.destination);
+      const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      const sourceNode = audioCtx.createMediaStreamSource(audioStream);
       const meterNode = webAudioPeakMeter.createMeterNode(sourceNode, audioCtx);
       webAudioPeakMeter.createMeter(meterElement, meterNode, {});
-      video.addEventListener('play', function () {
-        audioCtx.resume();
-      });
     };
     bindAudioToMeter();
   }, []);
