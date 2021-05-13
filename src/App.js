@@ -7,12 +7,13 @@ function App() {
   useEffect(() => {
     const bindAudioToMeter = async () => {
       const meterElement = document.getElementById('peak-meter');
-      const myAudio = document.getElementById('video');
-      const audioCtx = new window.AudioContext();
-      const sourceNode = audioCtx.createMediaElementSource(myAudio);
+      const video = document.getElementById('video');
+      var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      const sourceNode = audioCtx.createMediaElementSource(video);
+      sourceNode.connect(audioCtx.destination);
       const meterNode = webAudioPeakMeter.createMeterNode(sourceNode, audioCtx);
       webAudioPeakMeter.createMeter(meterElement, meterNode, {});
-      myAudio.addEventListener('play', function () {
+      video.addEventListener('play', function () {
         audioCtx.resume();
       });
     };
